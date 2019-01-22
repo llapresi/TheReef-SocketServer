@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Socket.io Test</title>
+    </head>
+    <body>
+        <h1>Socket Test</h1>
+        <form id="msgForm">
+            Message: <input type='text' id="msgValue">
+        </form>
+        <ul id="messages">
+        </ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script>
+            var socket = io();
+
+            document.getElementById('msgForm').addEventListener('submit', (evt) => {
+                evt.preventDefault();
+                socket.emit('chat msg', document.getElementById('msgValue').value);
+            }, true);
+
+            socket.on('chat msg', (msg) => {
+                let newMsgLi = document.createElement('li');
+                let msgLiText = document.createTextNode(msg);
+                newMsgLi.appendChild(msgLiText);
+                document.getElementById('messages').appendChild(newMsgLi);
+            });
+        </script>
+    </body>
+</html>
