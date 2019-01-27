@@ -1,25 +1,31 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const app = require('express')();
+const WebSocket = require('ws');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', (socket) => {
-    console.log('user connected');
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-
-    socket.on('chat msg', (msg) => {
-        io.emit('chat msg', msg);
-        console.log('message: ' + msg);
-     });
+const server = app.listen(port, () => {
+  console.log(`running on ${port}`);
 });
 
-http.listen(port, () => {
-    console.log('The server is running');
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', socket => {
+  console.log('someone has connected');
+  
+  socket.on('message', data => {
+    let parsedData = JSON.parse(data);
+
+    // Broadcoast to all if this is a message
+    if(parsedData.type === 'msg') {
+      wss.clients.forEach((client) => {
+        if(client.readyState === WebSocket.OPEN) {
+          client.send(parsedData.text);
+        }
+      })
+    }
+  });
 });
