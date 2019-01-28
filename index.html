@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Socket.io Test</title>
+        <style>
+            .bigButton {
+                max-width: 100%;
+                width: 100%;
+                height: 48vh;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+            }
+            .infobox {
+                height: 48vh;
+            }
+        </style>
     </head>
     <body>
-        <h1>Socket Test</h1>
-        <form id="msgForm">
-            Message: <input type='text' id="msgValue">
-        </form>
-        <ul id="messages">
-        </ul>
+        <div class="container">
+            <div class="infobox">Uhh</div>
+            <input type='button' id="fireButton" class="bigButton" value="FIRE">
+        </div>
         <script>
             const socket = new WebSocket(`wss://${window.location.host}`);
 
-            document.getElementById('msgForm').addEventListener('submit', (evt) => {
-                evt.preventDefault();
-                var msg = {
-                    type: 'msg',
-                    text: document.getElementById('msgValue').value
-                };
-                socket.send(JSON.stringify(msg));
-            }, true);
+            // document.getElementById('msgForm').addEventListener('submit', (evt) => {
+            //     evt.preventDefault();
+            //     var msg = {
+            //         type: 'msg',
+            //         text: document.getElementById('msgValue').value
+            //     };
+            //     socket.send(JSON.stringify(msg));
+            // }, true);
 
             socket.onmessage = ((msg) => {
-                let newMsgLi = document.createElement('li');
-                let msgLiText = document.createTextNode(msg.data);
-                newMsgLi.appendChild(msgLiText);
-                document.getElementById('messages').appendChild(newMsgLi);
+                // let newMsgLi = document.createElement('li');
+                // let msgLiText = document.createTextNode(msg.data);
+                // newMsgLi.appendChild(msgLiText);
+                // document.getElementById('messages').appendChild(newMsgLi);
             });
+
+            function sendMsg(data) {
+                socket.send(JSON.stringify(data));
+            }
 
             window.addEventListener("deviceorientation", e => {
                 var msg = {
@@ -36,7 +53,14 @@
                     y: e.gamma,
                     z: e.alpha,
                 };
-                socket.send(JSON.stringify(msg));
+                sendMsg(msg);
+            });
+
+            document.getElementById("fireButton").addEventListener("click", () => {
+                var msg = {
+                    type: 'fire'
+                };
+                sendMsg(msg);
             });
         </script>
     </body>
