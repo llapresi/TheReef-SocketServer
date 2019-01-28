@@ -25,6 +25,7 @@
         </div>
         <script>
             const socket = new WebSocket(`wss://${window.location.host}`);
+            const infoBox = document.getElementById('infobox');
 
             // document.getElementById('msgForm').addEventListener('submit', (evt) => {
             //     evt.preventDefault();
@@ -36,10 +37,26 @@
             // }, true);
 
             socket.onmessage = ((msg) => {
-                let newMsgLi = document.createElement('span');
-                let msgLiText = document.createTextNode(msg.data);
-                newMsgLi.appendChild(msgLiText);
-                document.getElementById('infobox').appendChild(newMsgLi);
+                // Parse the message
+                let parsedMsg = JSON.parse(parsedMsg);
+                if (parsedMsg.type === "targetInfo") {
+                    // Clear the infobox
+                    while (infoBox.firstChild) {
+                        infoBox.removeChild(infoBox.firstChild);
+                    }
+                    
+                    // Append new h1
+                    let newHeader = document.createElement('h1');
+                    let newHeaderText = document.createTextNode(parsedMsg.targetName);
+                    newHeader.appendChild(newHeaderText);
+                    infoBox.appendChild(newHeader);
+
+                    // Append new description
+                    let newDescription = document.createElement('p');
+                    let newDescriptionText = document.createTextNode(parsedMsg.targetDescription);
+                    newDescription.appendChild(newDescriptionText);
+                    infoBox.appendChild(newDescription);
+                }
             });
 
             function sendMsg(data) {
