@@ -38,7 +38,7 @@
 
             socket.onmessage = ((msg) => {
                 // Parse the message
-                let parsedMsg = JSON.parse(parsedMsg);
+                let parsedMsg = JSON.parse(msg);
                 if (parsedMsg.type === "targetInfo") {
                     // Clear the infobox
                     while (infoBox.firstChild) {
