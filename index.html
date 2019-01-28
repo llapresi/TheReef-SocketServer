@@ -33,8 +33,8 @@
                 var msg = {
                     type: 'rotate',
                     x: e.beta,
-                    y: -e.gamma,
-                    z: e.alpha - 180,
+                    y: e.gamma,
+                    z: e.alpha,
                 };
                 socket.send(JSON.stringify(msg));
             });
