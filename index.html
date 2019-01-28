@@ -28,6 +28,16 @@
                 newMsgLi.appendChild(msgLiText);
                 document.getElementById('messages').appendChild(newMsgLi);
             });
+
+            window.addEventListener("deviceorientation", e => {
+                var msg = {
+                    type: 'rotate',
+                    x: e.beta,
+                    y: -e.gamma,
+                    z: e.alpha - 180,
+                };
+                socket.send(JSON.stringify(msg));
+            });
         </script>
     </body>
 </html>
