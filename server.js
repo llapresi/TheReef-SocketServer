@@ -1,7 +1,8 @@
 const app = require('express')();
 const WebSocket = require('ws');
 
-const port = process.env.PORT || process.env.NODE_PORT || 3000;
+// Server port, 3000 for local testing, other stuff setup for Heroku
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -19,18 +20,24 @@ wss.on('connection', socket => {
   socket.on('message', data => {
     let parsedData = JSON.parse(data);
 
+    // Message setting is Unity
+    if(parsedData.type === 'isUnity') {
+      socket.isUnity = true;
+      console.log('Unity instance has connected');
+    }
+
     // Broadcoast to all if this is a message
     if(parsedData.type === 'msg') {
       wss.clients.forEach((client) => {
         if(client.readyState === WebSocket.OPEN) {
-          client.send(parsedData.text);
+          client.send(data);
         }
       })
     }
 
     if(parsedData.type === 'rotate') {
       wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN && client !== socket) {
+        if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
           client.send(data);
         }
       })
