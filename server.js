@@ -47,7 +47,7 @@ wss.on('connection', socket => {
     // Send returned target info messages to all clients (for now)
     if(parsedData.type === 'targetInfo') {
       wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN && client.isUnity !== true) {
+        if(client.readyState === WebSocket.OPEN) {
           client.send(data);
         }
       })
