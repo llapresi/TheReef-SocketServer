@@ -35,7 +35,7 @@ wss.on('connection', socket => {
       })
     }
 
-    if(parsedData.type === 'rotate') {
+    if(parsedData.type === 'rotate' || parsedData.type === 'fire') {
       wss.clients.forEach((client) => {
         if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
           client.send(data);
