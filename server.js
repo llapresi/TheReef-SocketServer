@@ -3,20 +3,19 @@ const WebSocket = require('ws');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/index.html');
-// });
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 
-// const server = app.listen(port, () => {
-//   console.log(`running on ${port}`);
-// });
+const server = app.listen(port, () => {
+  console.log(`running on ${port}`);
+});
 
-const wss = new WebSocket.Server({ port: port });
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', socket => {
-  console.log('someone has connected');  
+  console.log('someone has connected');
   
-  socket.send('you have connected');
   socket.on('message', data => {
     let parsedData = JSON.parse(data);
 
