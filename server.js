@@ -30,7 +30,7 @@ wss.on('connection', socket => {
 
     if(parsedData.type === 'rotate') {
       wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN) {
+        if(client.readyState === WebSocket.OPEN && client !== socket) {
           client.send(data);
         }
       })
