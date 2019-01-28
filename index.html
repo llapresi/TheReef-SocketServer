@@ -13,14 +13,14 @@
                 display: flex;
                 flex-direction: column;
             }
-            .infobox {
+            #infobox {
                 height: 48vh;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="infobox">Uhh</div>
+            <div id="infobox">Uhh</div>
             <input type='button' id="fireButton" class="bigButton" value="FIRE">
         </div>
         <script>
@@ -36,10 +36,10 @@
             // }, true);
 
             socket.onmessage = ((msg) => {
-                let newMsgLi = document.createElement('li');
+                let newMsgLi = document.createElement('span');
                 let msgLiText = document.createTextNode(msg.data);
                 newMsgLi.appendChild(msgLiText);
-                document.getElementById('messages').appendChild(newMsgLi);
+                document.getElementById('infobox').appendChild(newMsgLi);
             });
 
             function sendMsg(data) {
