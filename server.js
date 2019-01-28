@@ -35,9 +35,19 @@ wss.on('connection', socket => {
       })
     }
 
+    // Send rotate and fire messages to the Unity instance
     if(parsedData.type === 'rotate' || parsedData.type === 'fire') {
       wss.clients.forEach((client) => {
         if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
+          client.send(data);
+        }
+      })
+    }
+
+    // Send returned target info messages to all clients (for now)
+    if(parsedData.type === 'targetInfo') {
+      wss.clients.forEach((client) => {
+        if(client.readyState === WebSocket.OPEN && client.isUnity !== true) {
           client.send(data);
         }
       })
