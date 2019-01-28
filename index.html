@@ -38,8 +38,7 @@
 
             socket.onmessage = ((msg) => {
                 // Parse the message
-                console.log(msg);
-                let parsedMsg = JSON.parse(msg);
+                let parsedMsg = JSON.parse(msg.data);
                 console.log(parsedMsg);
 
                 if (parsedMsg.type === "targetInfo") {
