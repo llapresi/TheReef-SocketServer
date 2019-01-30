@@ -69,9 +69,9 @@
             function sendDeviceOrientation(event) {
                 var msg = {
                     type: 'rotate',
-                    x: e.beta,
-                    y: e.gamma,
-                    z: e.alpha,
+                    x: event.beta,
+                    y: event.gamma,
+                    z: event.alpha,
                 };
                 sendMsg(msg);
             }
