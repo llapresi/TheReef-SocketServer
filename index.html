@@ -66,8 +66,6 @@
                 socket.send(JSON.stringify(data));
             }
 
-            let sendMsgDebounced = _.debounce(sendMsg, 300);
-
             window.addEventListener("deviceorientation", e => {
                 var msg = {
                     type: 'rotate',
@@ -75,7 +73,7 @@
                     y: e.gamma,
                     z: e.alpha,
                 };
-                sendMsgDebounced(msg);
+                _.debounce(sendMsg(msg), 300);
             });
 
             document.getElementById("fireButton").addEventListener("click", () => {
