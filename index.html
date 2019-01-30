@@ -23,6 +23,7 @@
             <div id="infobox">Uhh</div>
             <input type='button' id="fireButton" class="bigButton" value="FIRE">
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
         <script>
             const socket = new WebSocket(`wss://${window.location.host}`);
             const infoBox = document.getElementById('infobox');
@@ -65,7 +66,7 @@
                 socket.send(JSON.stringify(data));
             }
 
-            window.addEventListener("deviceorientation", e => {
+            function sendDeviceOrientation(e) {
                 var msg = {
                     type: 'rotate',
                     x: e.beta,
@@ -73,7 +74,11 @@
                     z: e.alpha,
                 };
                 sendMsg(msg);
-            });
+            }
+
+            let sendDeviceOrientationDebounced = _.debounce(sendDeviceOrientation, 33);
+
+            window.addEventListener("deviceorientation", sendDeviceOrientationDebounced(e));
 
             document.getElementById("fireButton").addEventListener("click", () => {
                 var msg = {
