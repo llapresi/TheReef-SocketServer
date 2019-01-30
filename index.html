@@ -78,7 +78,7 @@
 
             let sendDeviceOrientationDebounced = _.debounce(sendDeviceOrientation, 33);
 
-            window.addEventListener("deviceorientation", sendDeviceOrientationDebounced;
+            window.addEventListener("deviceorientation", sendDeviceOrientationDebounced);
 
             document.getElementById("fireButton").addEventListener("click", () => {
                 var msg = {
