@@ -14,12 +14,15 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocket.Server({ server });
 
+let counter = 0;
+
 wss.on('connection', socket => {
-  console.log('someone has connected');
-  
+  socket.clientID = counter;
+  counter+=1;
+  console.log(`new user with id ${socket.clientID} has connected`);
+
   socket.on('message', data => {
     let parsedData = JSON.parse(data);
-
     // Message setting is Unity
     if(parsedData.type === 'isUnity') {
       socket.isUnity = true;
@@ -52,5 +55,9 @@ wss.on('connection', socket => {
         }
       })
     }
+  });
+
+  socket.on('close', () => {
+    console.log(`user ${socket.clientID} has disconnected`);
   });
 });
