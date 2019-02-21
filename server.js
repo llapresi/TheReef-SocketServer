@@ -28,7 +28,7 @@ wss.on('connection', socket => {
         type: 'userConnect',
         id: socket.clientID
       };
-      client.send(msg);
+      client.send(JSON.stringify(msg));
     }
   });
 
@@ -72,5 +72,15 @@ wss.on('connection', socket => {
 
   socket.on('close', () => {
     console.log(`user ${socket.clientID} has disconnected`);
-  });
+    wss.clients.forEach((client) => {
+      if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
+        let msg = {
+          type: 'userDisconnect',
+          id: socket.clientID
+        };
+        client.send(JSON.stringify(msg));
+      }
+    });
+    
+    });
 });
