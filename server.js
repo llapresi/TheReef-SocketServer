@@ -17,17 +17,30 @@ const wss = new WebSocket.Server({ server });
 let counter = 0;
 
 wss.on('connection', socket => {
+  // Assign every client an id
   socket.clientID = counter;
-  counter+=1;
   console.log(`new user with id ${socket.clientID} has connected`);
+  counter+=1;
+
+  wss.clients.forEach((client) => {
+    if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
+      let msg = {
+        type: 'userConnect',
+        id: socket.clientID
+      };
+      client.send(msg);
+    }
+  });
 
   socket.on('message', data => {
     let parsedData = JSON.parse(data);
-    // Message setting is Unity
+
+    // Read message from Unity client saying it's the Unity client
     if(parsedData.type === 'isUnity') {
       socket.isUnity = true;
       console.log('Unity instance has connected');
     }
+
 
     // Broadcoast to all if this is a message
     if(parsedData.type === 'msg') {
