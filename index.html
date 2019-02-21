@@ -76,12 +76,21 @@
                 _.debounce(sendMsg(msg), 300);
             });
 
-            document.getElementById("fireButton").addEventListener("click", () => {
+            document.getElementById("fireButton").addEventListener("touchstart", () => {
                 var msg = {
-                    type: 'fire'
+                    type: 'fire',
+                    held: true
                 };
                 sendMsg(msg);
             });
+            //on release
+            document.getElementById("fireButton").addEventListener("touchend", () => {
+                var msg = {
+                    type: 'fire',
+                    held: false
+                };
+                sendMsg(msg);
+            });            
         </script>
     </body>
 </html>
