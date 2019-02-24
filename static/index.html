@@ -79,6 +79,17 @@
 //                };
 //                _.debounce(sendMsg(msg), 300);
 //            });
+          function handleMotionEvent(event) {
+            var xAcc = event.accelerationIncludingGravity.x;
+            var yAcc = event.accelerationIncludingGravity.y;
+            var zAcc = event.accelerationIncludingGravity.z;
+            
+            infobox.innerHTML = 'x: ' + xAcc : '\ny: ' + yAcc + '\nz' + zAcc;
+          }
+          
+          window.addEventListener("devicemotion", handleMotionEvent, true);
+          
+          
             var args = {
               frequency: 33,
               orientationBase: GyroNorm.GAME,
