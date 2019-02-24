@@ -80,11 +80,11 @@
 //                _.debounce(sendMsg(msg), 300);
 //            });
           function handleMotionEvent(event) {
-            var xAcc = event.accelerationIncludingGravity.x;
-            var yAcc = event.accelerationIncludingGravity.y;
-            var zAcc = event.accelerationIncludingGravity.z;
+            var xAcc = Math.round(event.accelerationIncludingGravity.x * 100) /100;
+            var yAcc = Math.round(event.accelerationIncludingGravity.y * 100) /100;
+            var zAcc = Math.round(event.accelerationIncludingGravity.z * 100) /100;
             
-            infobox.innerHTML = 'x: ' + xAcc + '\ny: ' + yAcc + '\nz' + zAcc;
+            infobox.innerHTML = 'x: ' + xAcc + '\ny: ' + yAcc + '\nz: ' + zAcc;
           }
           
           window.addEventListener("devicemotion", handleMotionEvent, true);
