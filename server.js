@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const WebSocket = require('ws');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
