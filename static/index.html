@@ -107,7 +107,7 @@
                 sendMsg(msg);
                 
                 //Accelerations
-                infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
+
                 
                 //Flick acceleration threshold
                 //&& data.dm.y > 10.0
@@ -117,6 +117,7 @@
                       held: false
                     };
                 sendMsg(msg2);
+                  infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
                 }
                 
                 		
@@ -134,13 +135,14 @@
                 sendMsg(msg);
             });
             //on release
-            document.getElementById("fireButton").addEventListener("touchend", () => {
-                var msg = {
-                    type: 'fire',
-                    held: false
-                };
-                sendMsg(msg);
-            });            
+          
+//            document.getElementById("fireButton").addEventListener("touchend", () => {
+//                var msg = {
+//                    type: 'fire',
+//                    held: false
+//                };
+//                sendMsg(msg);
+//            });            
         </script>
     </body>
 </html>
