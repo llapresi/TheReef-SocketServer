@@ -109,6 +109,16 @@
                 //Accelerations
                 infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
                 
+                //Flick acceleration threshold
+                //&& data.dm.y > 10.0f
+                if ( data.dm.z > 10.0f ) {
+                    var msg2 = {
+                      type: 'fire',
+                      held: false
+                    };
+                sendMsg(msg2);
+                }
+                
                 		
                 		
               });
