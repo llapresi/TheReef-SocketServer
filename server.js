@@ -4,9 +4,7 @@ const WebSocket = require('ws');
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+app.use(express.static('static'));
 
 const server = app.listen(port, () => {
   console.log(`running on ${port}`);
