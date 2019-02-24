@@ -79,6 +79,7 @@
 //                };
 //                _.debounce(sendMsg(msg), 300);
 //            });
+          /*
           function handleMotionEvent(event) {
             var xAcc = Math.round(event.accelerationIncludingGravity.x * 100) /100;
             var yAcc = Math.round(event.accelerationIncludingGravity.y * 100) /100;
@@ -88,7 +89,7 @@
           }
           
           window.addEventListener("devicemotion", handleMotionEvent, true);
-          
+          */
           
             var args = {
               frequency: 33,
@@ -104,6 +105,12 @@
                   z: data.do.alpha,
                 };
                 sendMsg(msg);
+                
+                //Accelerations
+                infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
+                
+                		
+                		
               });
             }).catch(function(e){
               // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
