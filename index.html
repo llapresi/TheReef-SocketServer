@@ -24,9 +24,13 @@
             <input type='button' id="fireButton" class="bigButton" value="FIRE">
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+      <script src="gyronorm.complete.min.js"></script>
         <script>
             const socket = new WebSocket(`wss://${window.location.host}`);
             const infoBox = document.getElementById('infobox');
+          
+            var gn = new GyroNorm();
+          
 
             // document.getElementById('msgForm').addEventListener('submit', (evt) => {
             //     evt.preventDefault();
@@ -66,14 +70,32 @@
                 socket.send(JSON.stringify(data));
             }
 
-            window.addEventListener("deviceorientation", e => {
+//            window.addEventListener("deviceorientation", e => {
+//                var msg = {
+//                    type: 'rotate',
+//                    x: e.beta,
+//                    y: e.gamma,
+//                    z: e.alpha,
+//                };
+//                _.debounce(sendMsg(msg), 300);
+//            });
+            var args = {
+              frequency: 300,
+              orientationBase:GyroNorm.GAME,
+            }
+            
+            gn.init(args).then(function(){
+              gn.start(function(data){
                 var msg = {
-                    type: 'rotate',
-                    x: e.beta,
-                    y: e.gamma,
-                    z: e.alpha,
+                  type: 'rotate',
+                  x: data.do.beta,
+                  y: data.do.gamma,
+                  z: data.do.alpha,
                 };
-                _.debounce(sendMsg(msg), 300);
+                sendMsg(msg);
+              });
+            }).catch(function(e){
+              // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
             });
 
             document.getElementById("fireButton").addEventListener("touchstart", () => {

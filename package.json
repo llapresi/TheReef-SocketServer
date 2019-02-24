@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "gyronorm": "^2.0.6",
     "ws": "^6.1.3"
   }
 }
