@@ -111,13 +111,13 @@
                 
                 //Flick acceleration threshold
                 //&& data.dm.y > 10.0
-                if ( data.dm.z > 10.0 ) {
+                if ( data.dm.z > 6.0 ) {
                     var msg2 = {
                       type: 'fire',
                       held: false
                     };
                 sendMsg(msg2);
-                  infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
+                  //infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
                 }
                 
                 		
