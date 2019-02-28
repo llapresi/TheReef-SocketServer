@@ -4,9 +4,15 @@ const WebSocket = require('ws');
 const UnityClient = require('./clients/unityClient');
 const SocketEvents = require('./socket-events');
 const AssignClientID = require('./utils/assign-clientid');
+const ForceSecure = require('./utils/redirectToSecure');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
+
+// Force https redirect if not in production
+if(env !== 'development') {
+  app.use(ForceSecure);
+}
 
 app.use(express.static('static'));
 

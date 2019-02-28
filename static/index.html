@@ -26,20 +26,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
       <script src="gyronorm.complete.min.js"></script>
         <script>
-            const socket = new WebSocket(`wss://${window.location.host}`);
+            const socket = new WebSocket(`${location.protocol === "https" ? "wss" : "ws"}://${window.location.host}`);
             const infoBox = document.getElementById('infobox');
           
             var gn = new GyroNorm();
-          
-
-            // document.getElementById('msgForm').addEventListener('submit', (evt) => {
-            //     evt.preventDefault();
-            //     var msg = {
-            //         type: 'msg',
-            //         text: document.getElementById('msgValue').value
-            //     };
-            //     socket.send(JSON.stringify(msg));
-            // }, true);
 
             socket.onmessage = ((msg) => {
                 // Parse the message
@@ -69,27 +59,6 @@
             function sendMsg(data) {
                 socket.send(JSON.stringify(data));
             }
-
-//            window.addEventListener("deviceorientation", e => {
-//                var msg = {
-//                    type: 'rotate',
-//                    x: e.beta,
-//                    y: e.gamma,
-//                    z: e.alpha,
-//                };
-//                _.debounce(sendMsg(msg), 300);
-//            });
-          /*
-          function handleMotionEvent(event) {
-            var xAcc = Math.round(event.accelerationIncludingGravity.x * 100) /100;
-            var yAcc = Math.round(event.accelerationIncludingGravity.y * 100) /100;
-            var zAcc = Math.round(event.accelerationIncludingGravity.z * 100) /100;
-            
-            infobox.innerHTML = 'x: ' + xAcc + '\ny: ' + yAcc + '\nz: ' + zAcc;
-          }
-          
-          window.addEventListener("devicemotion", handleMotionEvent, true);
-          */
           
             var args = {
               frequency: 33,
