@@ -1,5 +1,5 @@
-const UnityClient = require('./unityClient');
-const SendToClient = require('./sendToClient');
+const UnityClient = require('../clients/unityClient');
+const SendToClient = require('../clients/sendToClient');
 
 module.exports = (wss, socket) => {
   socket.on('message', data => {

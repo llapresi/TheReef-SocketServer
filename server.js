@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const WebSocket = require('ws');
-const UnityClient = require('./unityClient');
-const SendToClient = require('./sendToClient');
+const UnityClient = require('./clients/unityClient');
+const SendToClient = require('./clients/sendToClient');
 const OnSocketMessage = require('./socket-handlers/onMessage');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
