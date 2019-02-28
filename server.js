@@ -27,15 +27,17 @@ wss.on('connection', socket => {
   socket.clientID = AssignClientID.assignID();
   console.log(`new user with id ${socket.clientID} has connected`);
 
-  // Tell unity client when phone connects 
+  // Tell the unity client that a client connects
+  // If the Unity client doesn't exist or is the connecting client in question
+  // This just does nothing
   UnityClient.send({
     type: 'userConnect',
     id: socket.clientID
   });
 
-  // Do on socket.on('message') stuff in another file
+  // Attach socket.on('message') stuff to the newly connected socket
   SocketEvents.OnMessage(wss, socket);
 
-  // Do socket.on('close') stuff in another file
+  // Attach socket.on('close') stuff to the newly connected socket
   SocketEvents.OnClose(socket);
 });
