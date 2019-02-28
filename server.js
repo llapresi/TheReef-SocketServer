@@ -10,7 +10,7 @@ const ForceSecure = require('./utils/redirectToSecure');
 const port = process.env.PORT || 3000;
 
 // Force https redirect if not in production
-if(env !== 'development') {
+if(process.env.NODE_ENV !== 'development') {
   app.use(ForceSecure);
 }
 
