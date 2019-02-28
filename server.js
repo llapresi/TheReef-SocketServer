@@ -47,7 +47,7 @@ wss.on('connection', socket => {
         break;
       case "targetInfo":
             // Send returned target info messages to only specified user in parsedData (provided by Unity client)
-        SendToClient(parsedData.userID, data);
+        SendToClient(wss, parsedData.userID, data);
         break;
     }
   });
