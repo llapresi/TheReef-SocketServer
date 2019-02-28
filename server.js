@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const WebSocket = require('ws');
 const UnityClient = require('./clients/unityClient');
-const SendToClient = require('./clients/sendToClient');
-const OnSocketMessage = require('./socket-handlers/onMessage');
+const SocketEvents = require('./socket-events');
+const AssignClientID = require('./utils/assign-clientid');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
@@ -16,13 +16,10 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocket.Server({ server });
 
-let counter = 0;
-
 wss.on('connection', socket => {
   // Assign every client an id and log to console
-  socket.clientID = counter;
+  socket.clientID = AssignClientID.assignID();
   console.log(`new user with id ${socket.clientID} has connected`);
-  counter+=1;
 
   // Tell unity client when phone connects 
   UnityClient.send({
@@ -31,16 +28,8 @@ wss.on('connection', socket => {
   });
 
   // Do on socket.on('message') stuff in another file
-  OnSocketMessage(wss, socket);
+  SocketEvents.OnMessage(wss, socket);
 
-  socket.on('close', () => {
-    console.log(`user ${socket.clientID} has disconnected`);
-    // Check to see if it was our UnityClient that disconnected
-    UnityClient.checkForDisconnection(socket);
-    // Send our disconnect message to the Unity client
-    UnityClient.send({
-      type: 'userDisconnect',
-      id: socket.clientID
-    });
-  });
+  // Do socket.on('close') stuff in another file
+  SocketEvents.OnClose(socket);
 });
