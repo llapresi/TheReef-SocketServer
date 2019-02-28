@@ -7,12 +7,10 @@ const canSendMessage = () => {
 }
 
 // On message with "isUnity" property set to true we store our Unity client
-exports.checkForConnection = (parsedData, socket) => {
-  if(parsedData.type === 'isUnity') {
-    socket.isUnity = true;
-    unitySocket = socket;
-    console.log('Unity instance has connected');
-  };
+exports.createUnitySocket = (socket) => {
+  socket.isUnity = true;
+  unitySocket = socket;
+  console.log('Unity instance has connected');
 };
 
 // Clear our unitySocket variable if the current unity socket disconnects

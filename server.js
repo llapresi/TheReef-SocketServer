@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const WebSocket = require('ws');
 const UnityClient = require('./unityClient');
+const SendToClient = require('./sendToClient');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
@@ -29,28 +30,25 @@ wss.on('connection', socket => {
   });
 
   socket.on('message', data => {
+    // Parse the data to JSON and attach the server assigned client ID
     let parsedData = JSON.parse(data);
+    parsedData.id = socket.clientID;
 
-    // Read message from Unity client saying it's the Unity client
-    UnityClient.checkForConnection(parsedData, socket);
-
-    // Send rotate and fire messages to the Unity instance
-    if(parsedData.type === 'rotate' || parsedData.type === 'fire') {
-      wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
-          parsedData.id = socket.clientID;
-          client.send(JSON.stringify(parsedData));
-        }
-      })
-    }
-
-    // Send returned target info messages to only specified user in parsedData ID
-    if(parsedData.type === 'targetInfo') {
-      wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN && client.clientID === parsedData.userID) {
-          client.send(data);
-        }
-      })
+    // Switch based on our message type
+    switch(parsedData.type) {
+      case "isUnity":
+        // Create UnityClient if we get an "isUnity" message
+        UnityClient.createUnitySocket(socket);
+        break;
+      case "rotate":
+      case "fire":
+        // Send rotate and fire messages to the Unity instance
+        UnityClient.send(parsedData);
+        break;
+      case "targetInfo":
+            // Send returned target info messages to only specified user in parsedData (provided by Unity client)
+        SendToClient(parsedData.userID, data);
+        break;
     }
   });
 
