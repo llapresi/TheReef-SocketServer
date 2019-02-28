@@ -1,3 +1,5 @@
+const WebSocket = require('ws');
+
 let unitySocket = undefined;
 
 const canSendMessage = () => {
