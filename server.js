@@ -1,12 +1,20 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const WebSocket = require('ws');
+const UnityClient = require('./clients/unityClient');
+const SocketEvents = require('./socket-events');
+const AssignClientID = require('./utils/assign-clientid');
+const ForceSecure = require('./utils/redirectToSecure');
 
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+// Force https redirect if not in production
+if(process.env.NODE_ENV !== 'development') {
+  app.use(ForceSecure);
+}
+
+app.use(express.static('static'));
 
 const server = app.listen(port, () => {
   console.log(`running on ${port}`);
@@ -14,50 +22,22 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocket.Server({ server });
 
-let counter = 0;
-
 wss.on('connection', socket => {
-  socket.clientID = counter;
-  counter+=1;
+  // Assign every client an id and log to console
+  socket.clientID = AssignClientID.assignID();
   console.log(`new user with id ${socket.clientID} has connected`);
 
-  socket.on('message', data => {
-    let parsedData = JSON.parse(data);
-    // Message setting is Unity
-    if(parsedData.type === 'isUnity') {
-      socket.isUnity = true;
-      console.log('Unity instance has connected');
-    }
-
-    // Broadcoast to all if this is a message
-    if(parsedData.type === 'msg') {
-      wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN) {
-          client.send(data);
-        }
-      })
-    }
-
-    // Send rotate and fire messages to the Unity instance
-    if(parsedData.type === 'rotate' || parsedData.type === 'fire') {
-      wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN && client.isUnity === true) {
-          client.send(data);
-        }
-      })
-    }
-
-    // Send returned target info messages to all clients (for now)
-    if(parsedData.type === 'targetInfo') {
-      wss.clients.forEach((client) => {
-        if(client.readyState === WebSocket.OPEN) {
-          client.send(data);
-        }
-      })
-    }
+  // Tell the unity client that a client connects
+  // If the Unity client doesn't exist or is the connecting client in question
+  // This just does nothing
+  UnityClient.send({
+    type: 'userConnect',
+    id: socket.clientID
   });
 
-  socket.on('close', () => {
-    console.log(`user ${socket.clientID} has disconnected`);
-  });
+  // Attach socket.on('message') stuff to the newly connected socket
+  SocketEvents.OnMessage(wss, socket);
+
+  // Attach socket.on('close') stuff to the newly connected socket
+  SocketEvents.OnClose(socket);
 });
