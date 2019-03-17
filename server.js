@@ -1,16 +1,17 @@
 const express = require('express');
-const app = express();
 const WebSocket = require('ws');
 const UnityClient = require('./clients/unityClient');
 const SocketEvents = require('./socket-events');
 const AssignClientID = require('./utils/assign-clientid');
 const ForceSecure = require('./utils/redirectToSecure');
 
+const app = express();
+
 // Server port, 3000 for local testing, other stuff setup for Heroku
 const port = process.env.PORT || 3000;
 
 // Force https redirect if not in production
-if(process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development') {
   app.use(ForceSecure);
 }
 
@@ -22,9 +23,10 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocket.Server({ server });
 
-wss.on('connection', socket => {
+wss.on('connection', (socket) => {
   // Assign every client an id and log to console
-  socket.clientID = AssignClientID.assignID();
+  const client = socket;
+  client.clientID = AssignClientID.assignID();
   console.log(`new user with id ${socket.clientID} has connected`);
 
   // Tell the unity client that a client connects
@@ -32,7 +34,7 @@ wss.on('connection', socket => {
   // This just does nothing
   UnityClient.send({
     type: 'userConnect',
-    id: socket.clientID
+    id: socket.clientID,
   });
 
   // Attach socket.on('message') stuff to the newly connected socket

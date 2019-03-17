@@ -1,0 +1,62 @@
+body {
+  overflow: hidden;
+}
+
+.bigButton {
+    max-width: 100%;
+    width: 100%;
+    height: 46vh;
+  position: relative;
+  z-index: 2;
+  background-color: darkslategrey;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+#infobox {
+    height: 50vh;
+  position: relative;
+}
+
+
+
+/*New Asset Additions*/
+.bubbleBox {
+  width: 100%;
+  height: auto;
+  max-width: 50vh;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+          
+
+#outerPeepHole {
+  z-index: 2;
+}
+
+#peepHole {
+  z-index: 3;
+}
+
+.trashItem {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  display: block;
+  z-index: 1;
+  
+  /*Center absolute elements*/
+  left: 50%;
+  margin-left: -100px;
+  
+  /*60 seems about centered*/
+  top: -300px;         
+}
+
+.transitionTop {
+  transition: top 1s ease-out; 
+}
