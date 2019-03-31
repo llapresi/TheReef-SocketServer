@@ -1,10 +1,31 @@
+const GyroNorm = require('gyronorm');
+
 const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`);
-const infoBox = document.getElementById('infobox');
 
 // For transitions
 const defaultVal = '-300px';
 const centerVal = '60px';
 let isTransitioning = false;
+
+// Animation classes
+
+function bringItemDown(id) {
+  isTransitioning = true;
+  const imgElem = document.getElementById(id);
+  // add the transition element
+  imgElem.classList.add('transitionTop');
+  // Center of the bubble
+  imgElem.style.top = centerVal;
+  // Transition takes a second to finish, so wait then execute second half
+  setTimeout(() => {
+    imgElem.style.top = '100vh';
+  }, 1000);
+  setTimeout(() => {
+    imgElem.classList.remove('transitionTop');
+    imgElem.style.top = defaultVal;
+    isTransitioning = false;
+  }, 2000);
+}
 
 const gn = new GyroNorm();
 
@@ -79,24 +100,3 @@ document.getElementById('fireButton').addEventListener('touchstart', () => {
   };
   sendMsg(msg);
 });
-
-
-// Animation classes
-
-function bringItemDown(id) {
-  isTransitioning = true;
-  const imgElem = document.getElementById(id);
-  // add the transition element
-  imgElem.classList.add('transitionTop');
-  // Center of the bubble
-  imgElem.style.top = centerVal;
-  // Transition takes a second to finish, so wait then execute second half
-  setTimeout(() => {
-    imgElem.style.top = '100vh';
-  }, 1000);
-  setTimeout(() => {
-    imgElem.classList.remove('transitionTop');
-    imgElem.style.top = defaultVal;
-    isTransitioning = false;
-  }, 2000);
-}
