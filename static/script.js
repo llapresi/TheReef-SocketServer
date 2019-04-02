@@ -1,5 +1,8 @@
+/* global GyroNorm */
+
+// NOT IMPORTING AS ITS BROKEN
 // Have to manually import the 'complete' package for Gyronorm
-const GyroNorm = require('gyronorm/dist/gyronorm.complete');
+// import GyroNorm from 'gyronorm';
 
 // Use http or https depending on client (server autosets this to https so this is most for
 // the sake of local development)
