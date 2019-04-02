@@ -1,5 +1,8 @@
-const GyroNorm = require('gyronorm');
+// Have to manually import the 'complete' package for Gyronorm
+const GyroNorm = require('gyronorm/dist/gyronorm.complete');
 
+// Use http or https depending on client (server autosets this to https so this is most for
+// the sake of local development)
 const socket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`);
 
 // For transitions
