@@ -23,6 +23,11 @@ module.exports = (wss, socket) => {
         // parsedData (provided by Unity client)
         SendToClient(wss, parsedData.userID, data);
         break;
+      case 'playerColor':
+        // Send returned target info messages to only specified user in
+        // parsedData (provided by Unity client)
+        SendToClient(wss, parsedData.userID, data);
+        break;
       default:
         console.log('parsedData.type not recognized');
         break;

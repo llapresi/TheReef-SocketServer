@@ -61,6 +61,10 @@ socket.onmessage = ((msg) => {
       }
     }
   }
+
+  if (parsedMsg.type === 'playerColor') {
+    document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
+  }
 });
 
 function sendMsg(data) {
