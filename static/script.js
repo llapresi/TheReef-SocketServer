@@ -94,5 +94,5 @@ document.getElementById('fireButton').addEventListener('touchstart', () => {
   sendMsg(msg);
 });
 
-document.getElementById('fireButton'.addEventListener('touchstart'), buttonPressed);
-document.getElementById('fireButton'.addEventListener('touchend'), buttonReleased);
+document.getElementById('fireButton').addEventListener('touchstart'), buttonPressed);
+document.getElementById('fireButton').addEventListener('touchend'), buttonReleased);
