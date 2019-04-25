@@ -3,222 +3,28 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Socket.io Test</title>
-        <style>
-          
-          body {
-            overflow: hidden;
-          }
-            .bigButton {
-                max-width: 100%;
-                width: 100%;
-                height: 46vh;
-              position: relative;
-              z-index: 2;
-              background-color: darkslategrey;
-            }
-            .container {
-                display: flex;
-                flex-direction: column;
-                position: relative;
-            }
-            #infobox {
-                height: 50vh;
-              position: relative;
-            }
-          
-
-          
-          /*New Asset Additions*/
-          .bubbleBox {
-            width: 100%;
-            height: auto;
-            max-width: 50vh;
-            position: absolute;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-          }
-                    
-          
-          #outerPeepHole {
-            z-index: 2;
-          }
-          
-          #peepHole {
-            z-index: 3;
-          }
-          
-          .trashItem {
-            width: 200px;
-            height: 200px;
-            position: absolute;
-            display: block;
-            z-index: 1;
-            
-            /*Center absolute elements*/
-            left: 50%;
-            margin-left: -100px;
-            
-            /*60 seems about centered*/
-            top: -300px;         
-          }
-          
-          .transitionTop {
-            transition: top 1s ease-out; 
-          }
-        </style>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
     </head>
     <body>
         <div class="container">
             <div id="infobox">
               <!-- Garbage Holding Images -->
-            <img class="bubbleBox" id="outerPeepHole" src="assets/outerPeep.png" alt="outerPeepHole" />
-            <img class="bubbleBox" id="peepHole" src="assets/peepHole.png" alt="outerPeepHole" />
+              <img class="bubbleBox" id="outerPeepHole" src="assets/outerPeep.png" alt="outerPeepHole" />
+              <img class="bubbleBox" id="peepHole" src="assets/peepHole.png" alt="outerPeepHole" />
               
               <!-- Garbage Images -->
               <img class="trashItem" id="plasticBottle" src="assets/plasticBottle.png" alt="plastic bottle" />
               <img class="trashItem" id="garbageBag" src="assets/garbageBag.png" alt="garbage bag" />
-          
-          </div> <!-- END DIV INFOBOX-->
+            </div> <!-- END DIV INFOBOX-->
             <input type='button' id="fireButton" class="bigButton" value="FIRE">
-          <!-- //TEST BUTTONS
-            <input type='button' id="bottleButton" class="" value="plasticBag" onclick="bringItemDown('plasticBottle')">
-            <input type='button' id="bottleButton" class="" value="garbage bag" onclick="bringItemDown('garbageBag')">
+            <!-- //TEST BUTTONS
+                <input type='button' id="bottleButton" class="" value="plasticBag" onclick="bringItemDown('plasticBottle')">
+                <input type='button' id="bottleButton" class="" value="garbage bag" onclick="bringItemDown('garbageBag')">
             -->
         </div> <!-- END DIV CONTAINER -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
-      <script src="gyronorm.complete.min.js"></script>
-        <script>
-            const socket = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}`);
-            const infoBox = document.getElementById('infobox');
-          
-          //For transitions
-          var defaultVal = "-300px";
-          var centerVal = "60px";
-          var isTransitioning = false;
-          
-            var gn = new GyroNorm();
-
-            socket.onmessage = ((msg) => {
-                // Parse the message
-                let parsedMsg = JSON.parse(msg.data);
-                console.log(parsedMsg);
-
-                if (parsedMsg.type === "targetInfo") {
-                  
-                  /*
-                    // Clear the infobox
-                    while (infoBox.firstChild) {
-                        infoBox.removeChild(infoBox.firstChild);
-                    }
-                    
-                    // Append new h1
-                    let newHeader = document.createElement('h1');
-                    let newHeaderText = document.createTextNode(parsedMsg.targetName);
-                    newHeader.appendChild(newHeaderText);
-                    infoBox.appendChild(newHeader);
-   
-                    // Append new description
-                    let newDescription = document.createElement('p');
-                    let newDescriptionText = document.createTextNode(parsedMsg.targetDescription);
-                    newDescription.appendChild(newDescriptionText);
-                    infoBox.appendChild(newDescription);
-                    */
-                  
-                  let trashCaught = parsedMsg.targetName;
-                  //We can change the header texts later to be numerical, then run it through
-                  //an enum and translate it here so its less stress on the server
-                  //but for now, hard code   Plastic Bottle, Garbage Bag
-                  
-                  //Any point adding, wed do before the transitions.
-                  //transitions cannot happen simultaneously, so wed wanna limit
-                  if (!isTransitioning) {
-                    switch(trashCaught) {
-                      case "Plastic Bottle":
-                        bringItemDown("plasticBottle");
-                        break;
-                      case "Garbage Bag":
-                        bringItemDown("garbageBag");
-                        break;
-                      default:
-                        console.log("Unrecognized item caught");
-                    }
-                  }
-                  
-                  
-                }
-            });
-
-            function sendMsg(data) {
-                socket.send(JSON.stringify(data));
-            }
-          
-            var args = {
-              frequency: 33,
-              orientationBase: GyroNorm.GAME,
-            }
-            
-            gn.init(args).then(function(){
-              gn.start(function(data){
-                var msg = {
-                  type: 'rotate',
-                  x: data.do.beta,
-                  y: data.do.gamma,
-                  z: data.do.alpha,
-                };
-                sendMsg(msg);
-                
-                //Accelerations
-
-                
-                //Flick acceleration threshold
-                //&& data.dm.y > 10.0
-                if ( data.dm.z > 6.0 ) {
-                    var msg2 = {
-                      type: 'fire',
-                      held: false
-                    };
-                sendMsg(msg2);
-                  //infobox.innerHTML = 'x: ' + data.dm.x + '\ny: ' + data.dm.y + '\nz: ' + data.dm.z;
-                }
-                
-                		
-                		
-              });
-            }).catch(function(e){
-              // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
-            });
-
-            document.getElementById("fireButton").addEventListener("touchstart", () => {
-                var msg = {
-                    type: 'fire',
-                    held: true
-                };
-                sendMsg(msg);
-            });
-
-          
-          //Animation classes
-          
-          function bringItemDown(id) {
-            isTransitioning = true;
-            var imgElem = document.getElementById(id);
-            //add the transition element
-            imgElem.classList.add("transitionTop");
-            //Center of the bubble
-            imgElem.style.top= centerVal;
-            //Transition takes a second to finish, so wait then execute second half
-            setTimeout(function() {
-              imgElem.style.top="100vh";
-            }, 1000);
-            setTimeout(function() {
-              imgElem.classList.remove("transitionTop");
-              imgElem.style.top = defaultVal;
-              isTransitioning = false;
-            }, 2000);            
-          }
-          
-          
-        </script>
+        <!-- Gyronorm seems to be broken when using it as a module so were gonna do it here instead -->
+        <script src="gyronorm.complete.min.js"></script>
+        <script src="bundle.js"></script>
     </body>
 </html>

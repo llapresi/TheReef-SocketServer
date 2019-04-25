@@ -8,7 +8,7 @@ module.exports = (socket) => {
     // Send our disconnect message to the Unity client
     UnityClient.send({
       type: 'userDisconnect',
-      id: socket.clientID
+      id: socket.clientID,
     });
   });
 };
