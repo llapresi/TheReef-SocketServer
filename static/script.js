@@ -49,7 +49,8 @@ socket.onmessage = ((msg) => {
   //PLAYER COLOR CHANGED
   if (parsedMsg.type === 'playerColor') {
     //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
-    document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
+    //document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
+    document.getElementById('bgImg').src = `red.png`;
     console.log("color recieved: ");
     console.log(parsedMsg.hexColor);
   }
