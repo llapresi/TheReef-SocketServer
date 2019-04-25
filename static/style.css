@@ -6,18 +6,23 @@ body {
     max-width: 100%;
     width: 100%;
     height: 100vh;
-  position: relative;
+  position: absolute;
   z-index: 2;
   background-color: darkslategrey;
+  opacity: 0.5;
 }
 .container {
     display: flex;
     flex-direction: column;
     position: relative;
 }
-#infobox {
-    height: 50vh;
-  position: relative;
+#bgImg {
+    height: auto;
+    width: 100%;
+    position: absolute;
+    max-width: 50vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
