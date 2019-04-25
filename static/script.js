@@ -15,25 +15,18 @@ let isTransitioning = false;
 
 // Animation classes
 
-/*
-function bringItemDown(id) {
-  isTransitioning = true;
-  const imgElem = document.getElementById(id);
-  // add the transition element
-  imgElem.classList.add('transitionTop');
-  // Center of the bubble
-  imgElem.style.top = centerVal;
-  // Transition takes a second to finish, so wait then execute second half
-  setTimeout(() => {
-    imgElem.style.top = '100vh';
-  }, 1000);
-  setTimeout(() => {
-    imgElem.classList.remove('transitionTop');
-    imgElem.style.top = defaultVal;
-    isTransitioning = false;
-  }, 2000);
+
+//Fade between buttons on press and release
+function buttonPressed() {
+    document.getElementById('grab').style.opacity = "0";
+    document.getElementById('grabPressed').style.opacity ="1";
 }
-*/
+
+function buttonReleased() {
+    document.getElementById('grab').style.opacity = "1";
+    document.getElementById('grabPressed').style.opacity ="0";
+}
+
 const gn = new GyroNorm();
 
 socket.onmessage = ((msg) => {
@@ -100,3 +93,6 @@ document.getElementById('fireButton').addEventListener('touchstart', () => {
   };
   sendMsg(msg);
 });
+
+document.getElementById('fireButton'.addEventListener('touchstart'), buttonPressed);
+document.getElementById('fireButton'.addEventListener('touchend'), buttonReleased);

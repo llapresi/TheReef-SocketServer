@@ -24,14 +24,24 @@ body {
     margin-right: auto;
 }
 
-#grabImg {
+.grabImg {
     width: 50%;
   height: auto;
   margin-left: 25%;
   margin-right: 25%;
-  margin-top: 300px;
+  margin-top: 250px;
   position: absolute;
   display: block;
+  
+  /*Transitions*/
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+#grabPressed {
+  opacity: 0;
 }
 
 
