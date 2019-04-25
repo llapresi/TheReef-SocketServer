@@ -28,8 +28,6 @@ body {
     width: 50%;
   height: auto;
 	background:url(duck.png) no-repeat center center;
-	height:300px;
-	width:300px;
   position: relative;
 }
 
