@@ -27,10 +27,9 @@ body {
 #grabImg {
     width: 50%;
   height: auto;
-  max-width: 250px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: calc(50%/2);
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 400px;
   position: absolute;
   display: block;
 }
