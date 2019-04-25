@@ -9,7 +9,7 @@ body {
   position: absolute;
   z-index: 2;
   background-color: darkslategrey;
-  opacity: 0.5;
+  opacity: 0.0;
 }
 .container {
     display: flex;
@@ -27,11 +27,10 @@ body {
 #grabImg {
     width: 50%;
   height: auto;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 0%);
+	background:url(duck.png) no-repeat center center;
+	height:300px;
+	width:300px;
+  position: relative;
 }
 
 
