@@ -43,31 +43,15 @@ socket.onmessage = ((msg) => {
 
   if (parsedMsg.type === 'targetInfo') {
     const trashCaught = parsedMsg.targetName;
-    // We can change the header texts later to be numerical, then run it through
-    // an enum and translate it here so its less stress on the server
-    // but for now, hard code   Plastic Bottle, Garbage Bag
 
-    // Any point adding, wed do before the transitions.
-    // transitions cannot happen simultaneously, so wed wanna limit
-    /*
-    if (!isTransitioning) {
-      switch (trashCaught) {
-        case 'Plastic Bottle':
-          bringItemDown('plasticBottle');
-          break;
-        case 'Garbage Bag':
-          bringItemDown('garbageBag');
-          break;
-        default:
-          console.log('Unrecognized item caught');
-      }
-    }
-    */
   }
 
   //PLAYER COLOR CHANGED
   if (parsedMsg.type === 'playerColor') {
     //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
+    document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
+    console.log("color recieved: ");
+    console.log(parsedMsg.hexColor);
   }
 });
 
