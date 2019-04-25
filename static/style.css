@@ -23,6 +23,7 @@ body {
 
 
 /*New Asset Additions*/
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 .bubbleBox {
   width: 100%;
   height: auto;
@@ -42,6 +43,7 @@ body {
   z-index: 3;
 }
 
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 .trashItem {
   width: 200px;
   height: 200px;

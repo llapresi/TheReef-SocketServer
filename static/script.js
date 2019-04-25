@@ -15,6 +15,7 @@ let isTransitioning = false;
 
 // Animation classes
 
+/*
 function bringItemDown(id) {
   isTransitioning = true;
   const imgElem = document.getElementById(id);
@@ -32,7 +33,7 @@ function bringItemDown(id) {
     isTransitioning = false;
   }, 2000);
 }
-
+*/
 const gn = new GyroNorm();
 
 socket.onmessage = ((msg) => {
@@ -48,6 +49,7 @@ socket.onmessage = ((msg) => {
 
     // Any point adding, wed do before the transitions.
     // transitions cannot happen simultaneously, so wed wanna limit
+    /*
     if (!isTransitioning) {
       switch (trashCaught) {
         case 'Plastic Bottle':
@@ -60,10 +62,12 @@ socket.onmessage = ((msg) => {
           console.log('Unrecognized item caught');
       }
     }
+    */
   }
 
+  //PLAYER COLOR CHANGED
   if (parsedMsg.type === 'playerColor') {
-    document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
+    //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
   }
 });
 
