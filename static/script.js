@@ -50,9 +50,9 @@ socket.onmessage = ((msg) => {
   if (parsedMsg.type === 'playerColor') {
     //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
     //document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
-    document.getElementById('bgImg').src = `./${parsedMsg.hexColor}.png`;
+    document.getElementById('bgImg').src = `./assets/${parsedMsg.hexColor}.png`;
     if (parsedMsg.hexColor == "") {
-      document.getElementById('bgImg').src = `./red.png`;
+      document.getElementById('bgImg').src = `./assets/red.png`;
     }
   }
 });
