@@ -17,12 +17,19 @@ body {
     position: relative;
 }
 #bgImg {
-    height: auto;
+    height: 100%;
     width: 100%;
     position: absolute;
-    max-width: 50vh;
     margin-left: auto;
     margin-right: auto;
+}
+
+#grabImg {
+    width: 50%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
 }
 
 
