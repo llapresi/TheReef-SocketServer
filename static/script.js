@@ -50,9 +50,11 @@ socket.onmessage = ((msg) => {
   if (parsedMsg.type === 'playerColor') {
     //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
     //document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
-    document.getElementById('bgImg').style.src = `red.png`;
-    console.log("color recieved: ");
-    console.log(parsedMsg.hexColor);
+    //document.getElementById('bgImg').style.src = `red.png`;
+    var backImg = document.getElementById("bgImg");
+    console.log("element: " + backImg);
+    console.log(backImg.src);
+    console.log(backImg.style);
   }
 });
 
