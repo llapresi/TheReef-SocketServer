@@ -27,8 +27,10 @@ body {
 #grabImg {
     width: 50%;
   height: auto;
-	background:url(duck.png) no-repeat center center;
-  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: calc(50%/2);
+  position: absolute;
 }
 
 
