@@ -5,24 +5,49 @@ body {
 .bigButton {
     max-width: 100%;
     width: 100%;
-    height: 46vh;
-  position: relative;
+    height: 100vh;
+  position: absolute;
   z-index: 2;
   background-color: darkslategrey;
+  opacity: 0.0;
 }
 .container {
     display: flex;
     flex-direction: column;
     position: relative;
 }
-#infobox {
-    height: 50vh;
-  position: relative;
+#bgImg {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grabImg {
+    width: 50%;
+  height: auto;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 250px;
+  position: absolute;
+  display: block;
+  
+  /*Transitions*/
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
+}
+
+#grabPressed {
+  opacity: 0;
 }
 
 
 
 /*New Asset Additions*/
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 .bubbleBox {
   width: 100%;
   height: auto;
@@ -42,6 +67,7 @@ body {
   z-index: 3;
 }
 
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 .trashItem {
   width: 200px;
   height: 200px;

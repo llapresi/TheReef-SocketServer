@@ -15,22 +15,16 @@ let isTransitioning = false;
 
 // Animation classes
 
-function bringItemDown(id) {
-  isTransitioning = true;
-  const imgElem = document.getElementById(id);
-  // add the transition element
-  imgElem.classList.add('transitionTop');
-  // Center of the bubble
-  imgElem.style.top = centerVal;
-  // Transition takes a second to finish, so wait then execute second half
-  setTimeout(() => {
-    imgElem.style.top = '100vh';
-  }, 1000);
-  setTimeout(() => {
-    imgElem.classList.remove('transitionTop');
-    imgElem.style.top = defaultVal;
-    isTransitioning = false;
-  }, 2000);
+
+//Fade between buttons on press and release
+function buttonPressed() {
+    document.getElementById('grab').style.opacity = "0";
+    document.getElementById('grabPressed').style.opacity ="1";
+}
+
+function buttonReleased() {
+    document.getElementById('grab').style.opacity = "1";
+    document.getElementById('grabPressed').style.opacity ="0";
 }
 
 const gn = new GyroNorm();
@@ -42,28 +36,18 @@ socket.onmessage = ((msg) => {
 
   if (parsedMsg.type === 'targetInfo') {
     const trashCaught = parsedMsg.targetName;
-    // We can change the header texts later to be numerical, then run it through
-    // an enum and translate it here so its less stress on the server
-    // but for now, hard code   Plastic Bottle, Garbage Bag
 
-    // Any point adding, wed do before the transitions.
-    // transitions cannot happen simultaneously, so wed wanna limit
-    if (!isTransitioning) {
-      switch (trashCaught) {
-        case 'Plastic Bottle':
-          bringItemDown('plasticBottle');
-          break;
-        case 'Garbage Bag':
-          bringItemDown('garbageBag');
-          break;
-        default:
-          console.log('Unrecognized item caught');
-      }
-    }
   }
 
+  //PLAYER COLOR CHANGED
   if (parsedMsg.type === 'playerColor') {
-    document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
+    //document.getElementById('fireButton').style.backgroundColor = `#${parsedMsg.hexColor}`;
+    //document.getElementById('bgImg').src = `${parsedMsg.hexColor}.png`;
+    console.log("COLOR RECIEVED: " + parsedMsg.hexColor);
+    document.getElementById('bgImg').src = `./assets/${parsedMsg.hexColor}.png`;
+    if (parsedMsg.hexColor == "") {
+      document.getElementById('bgImg').src = `./assets/red.png`;
+    }
   }
 });
 
@@ -110,3 +94,6 @@ document.getElementById('fireButton').addEventListener('touchstart', () => {
   };
   sendMsg(msg);
 });
+
+document.getElementById('fireButton').addEventListener('touchstart', buttonPressed);
+document.getElementById('fireButton').addEventListener('touchend', buttonReleased);
