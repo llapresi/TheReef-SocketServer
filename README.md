@@ -4,11 +4,11 @@ Host webapp for phone which sends commands to this socket server, which in turn 
 Utilizes [Gyronorm.js](https://github.com/dorukeker/gyronorm.js/) for consistent crossplatform orientation data.
 
 ## Outline
-* "/clients" folder contains modules handling sending messages to clients
-* "/socket-events" folder contains modules handling events (reciving messages and clients connecting/disconnecting)
-* "/static" folder contains source for web app used by phone clients.
-* "/utils" folder contains misc. modules
-* "server.js" file contain sapp entry point and client connection logic.
+* `/clients` folder contains modules handling sending messages to clients
+* `/socket-events` folder contains modules handling events (reciving messages and clients connecting/disconnecting)
+* `/static` folder contains source for web app used by phone clients.
+* `/utils` folder contains misc. modules
+* `server.js` file contain sapp entry point and client connection logic.
 
 ## To Install
 1. Clone this repo
