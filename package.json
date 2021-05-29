@@ -15,7 +15,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "gyronorm": "^2.0.6",
-    "ws": "^6.1.3"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "browserify": "^16.2.3",
